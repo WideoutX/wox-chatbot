@@ -202,7 +202,16 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: 12.5px;
     }
-    .wox-msg a { color: var(--wox-accent, #22d3ee); text-decoration: underline; }
+    .wox-msg a { color: var(--wox-accent, #22d3ee); text-decoration: underline; word-break: break-word; }
+    .wox-msg a:hover { color: #67e8f9; }
+    .wox-msg img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin: 6px 0;
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      display: block;
+    }
 
     /* WELCOME QUICK REPLIES (vertical stacked buttons) */
     .wox-quick-replies {
@@ -367,7 +376,35 @@
 
   function renderMarkdown(text) {
     const escape = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const escQ = (s) => s.replace(/"/g, '&quot;');
+    // Allow http(s), mailto, tel, root-relative, fragment, and protocol-relative URLs. Reject javascript:, data:, etc.
+    const safeUrl = (url) => {
+      const u = url.trim();
+      return /^(https?:|mailto:|tel:|\/|#|\?)/i.test(u) ? u : '#';
+    };
+
     let out = escape(text);
+
+    // Images first so ![alt](url) is not consumed by the link rule.
+    out = out.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g, (_, alt, url, title) => {
+      const href = escQ(safeUrl(url));
+      const t = title ? ` title="${escQ(title)}"` : '';
+      return `<img src="${href}" alt="${escQ(alt)}"${t} loading="lazy">`;
+    });
+
+    // Markdown links [text](url "optional title")
+    out = out.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g, (_, label, url, title) => {
+      const href = escQ(safeUrl(url));
+      const t = title ? ` title="${escQ(title)}"` : '';
+      return `<a href="${href}" target="_blank" rel="noopener noreferrer"${t}>${label}</a>`;
+    });
+
+    // Autolink bare URLs that weren't wrapped in markdown syntax.
+    out = out.replace(/(^|[\s(])((?:https?:\/\/|www\.)[^\s<>()]+[^\s<>().,!?;:'"])/g, (_, lead, url) => {
+      const href = escQ(url.startsWith('www.') ? 'http://' + url : url);
+      return `${lead}<a href="${href}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+    });
+
     out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
     out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     out = out.replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>');
