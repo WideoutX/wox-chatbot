@@ -86,3 +86,6 @@ Then point the widget's `endpoint` at your server (`/api/chat`) and set `apiToke
 ## License
 
 MIT — do whatever you want.
+
+
+<!-- workflow trigger: 05/14: 3:30pm -->
