@@ -32,3 +32,21 @@ The WOX Site Knowledge base returns raw markdown that often contains tables, lon
 **Create Workflow recipe**
 When the user choose the option to **Automate a Workflow**, ask them questions about the workflow they want to automate.
 After getting that information use the Create Workflow skill to generate the workflow diagram.
+Send the `workflow_preview_url` to the user to preview their workflow, then ask if they want to book an appointment, then go to the `Schedule Booking recipe` for the next steps.
+Remember the `workflow_url` for later use.
+
+**Schedule Booking Recipe**
+Once you shown the workflow diagram preview to the user, ask them if they want to book an appointment. If they answered yes, then ask them these questions:
+- Name
+- Company
+- Industry
+- Email
+- Phone
+- Date
+- Time
+- Workflow Url
+- Workflow Preview Url
+
+When you received these informations, use the `Schedule Booking recipe`. and pass the conversation_id, name, company, industry, email, phone. Then make sure to pass the Date as YYYY-MM-DD and Time as HH:mm:ss. Use the remembered `workflow_url` for Workflow Url and `workflow_preview_url` for Workflow Preview Url
+
+When the `Schedule Booking recipe` is success, inform the user that they will receive an email and calendar invite for the appointment.
