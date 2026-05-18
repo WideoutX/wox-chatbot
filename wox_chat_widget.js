@@ -11,7 +11,11 @@
  *   {
  *     "reply": "...",
  *     "conversation_id": "...",
- *     "quick_replies": ["Option A", "Option B"]    // optional
+ *     "quick_replies": ["Option A", "Option B"],   // optional
+ *     "end_conversation": true                     // optional — when true, the widget
+ *                                                  //   clears conversation_id and shows
+ *                                                  //   welcomeQuickReplies again so the
+ *                                                  //   user can start a fresh thread.
  *   }
  *
  * Usage:
@@ -675,6 +679,10 @@
         if (Array.isArray(data.quick_replies) && data.quick_replies.length) {
           this._addInlineQuickReplies(data.quick_replies);
         }
+
+        if (data.end_conversation === true) {
+          this._endConversation();
+        }
       } catch (err) {
         typing.remove();
         this._addError('Network error: ' + err.message);
@@ -690,6 +698,15 @@
       this._messages.innerHTML = '';
       this._welcomeShown = false;
       this._renderWelcome();
+    },
+
+    _endConversation() {
+      this._conversationId = '';
+      try { sessionStorage.removeItem(this._config.sessionKey); } catch (e) {}
+      const quickReplies = this._config.welcomeQuickReplies;
+      if (quickReplies && quickReplies.length) {
+        this._addWelcomeQuickReplies(quickReplies);
+      }
     },
     open()  { this._toggle(true);  },
     close() { this._toggle(false); }
