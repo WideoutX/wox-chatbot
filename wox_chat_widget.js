@@ -64,20 +64,20 @@
     /* LAUNCHER */
     .wox-launcher {
       width: 60px; height: 60px; border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #1e293b 0%, #0a0f1d 100%);
-      border: 1px solid rgba(34, 211, 238, 0.35);
+      background: radial-gradient(circle at 30% 30%, rgba(34, 211, 238, 0.22) 0%, #0a0f1d 65%, #060912 100%);
+      border: 1px solid rgba(34, 211, 238, 0.5);
       cursor: pointer;
       box-shadow:
-        0 0 24px rgba(34, 211, 238, 0.25),
-        0 8px 24px rgba(0,0,0,0.45),
-        inset 0 1px 0 rgba(255,255,255,0.05);
+        0 0 32px rgba(34, 211, 238, 0.38),
+        0 8px 24px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.06);
       display: flex; align-items: center; justify-content: center;
       transition: transform 200ms ease, box-shadow 200ms ease;
       color: var(--wox-accent, #22d3ee);
     }
     .wox-launcher:hover {
       transform: translateY(-2px);
-      box-shadow: 0 0 32px rgba(34, 211, 238, 0.45), 0 12px 28px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08);
+      box-shadow: 0 0 44px rgba(34, 211, 238, 0.6), 0 12px 28px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08);
     }
     .wox-launcher svg { width: 26px; height: 26px; }
 
@@ -88,14 +88,15 @@
       width: 380px; height: 600px;
       max-height: calc(100vh - 120px);
       background:
-        radial-gradient(ellipse at top right, rgba(34, 211, 238, 0.10) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom left, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
-        linear-gradient(180deg, #0b1220 0%, #060912 100%);
-      border: 1px solid rgba(34, 211, 238, 0.18);
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(34, 211, 238, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse at top right, rgba(34, 211, 238, 0.14) 0%, transparent 55%),
+        radial-gradient(ellipse at bottom left, rgba(59, 130, 246, 0.08) 0%, transparent 55%),
+        linear-gradient(180deg, #060912 0%, #0a0f1d 100%);
+      border: 1px solid rgba(34, 211, 238, 0.28);
       border-radius: 22px;
       box-shadow:
-        0 0 48px rgba(34, 211, 238, 0.10),
-        0 24px 64px rgba(0,0,0,0.55),
+        0 0 60px rgba(34, 211, 238, 0.18),
+        0 24px 64px rgba(0,0,0,0.6),
         inset 0 1px 0 rgba(255,255,255,0.04);
       display: flex; flex-direction: column;
       overflow: hidden;
@@ -128,8 +129,8 @@
       padding: 18px 18px 16px;
       display: flex; align-items: flex-start; justify-content: space-between;
       flex-shrink: 0;
-      border-bottom: 1px solid rgba(34, 211, 238, 0.15);
-      background: linear-gradient(180deg, rgba(34, 211, 238, 0.04) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(34, 211, 238, 0.2);
+      background: linear-gradient(180deg, rgba(34, 211, 238, 0.07) 0%, transparent 100%);
     }
     .wox-header::after {
       content: '';
@@ -340,18 +341,18 @@
       box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.12);
     }
     .wox-send {
-      background: linear-gradient(135deg, var(--wox-accent, #22d3ee) 0%, #3b82f6 100%);
+      background: linear-gradient(135deg, #67e8f9 0%, var(--wox-accent, #22d3ee) 100%);
       border: none;
       width: 40px; height: 40px;
       border-radius: 12px;
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      color: #0a0f1d;
+      color: #062028;
       flex-shrink: 0;
       transition: opacity 150ms ease, transform 150ms ease, box-shadow 150ms ease;
-      box-shadow: 0 0 16px rgba(34, 211, 238, 0.25);
+      box-shadow: 0 0 22px rgba(34, 211, 238, 0.5), inset 0 1px 0 rgba(255,255,255,0.25);
     }
-    .wox-send:hover { transform: translateY(-1px); box-shadow: 0 0 24px rgba(34, 211, 238, 0.45); }
+    .wox-send:hover { transform: translateY(-1px); box-shadow: 0 0 32px rgba(34, 211, 238, 0.7), inset 0 1px 0 rgba(255,255,255,0.3); }
     .wox-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
     .wox-send svg { width: 18px; height: 18px; }
 
