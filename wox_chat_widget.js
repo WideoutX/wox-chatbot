@@ -64,7 +64,7 @@
     /* LAUNCHER */
     .wox-launcher {
       width: 60px; height: 60px; border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(34, 211, 238, 0.22) 0%, #0a0f1d 65%, #060912 100%);
+      background: #002E44;
       border: 1px solid rgba(34, 211, 238, 0.5);
       cursor: pointer;
       box-shadow:
@@ -73,7 +73,7 @@
         inset 0 1px 0 rgba(255,255,255,0.06);
       display: flex; align-items: center; justify-content: center;
       transition: transform 200ms ease, box-shadow 200ms ease;
-      color: var(--wox-accent, #22d3ee);
+      color: #1aa4b6;
     }
     .wox-launcher:hover {
       transform: translateY(-2px);
