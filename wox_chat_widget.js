@@ -380,6 +380,18 @@
       display: flex; flex-direction: column; gap: 8px;
       animation: wox-fade-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
     }
+    /* Quiet "start a new topic" divider shown when the menu re-appears after a conversation ends */
+    .wox-qr-divider {
+      display: flex; align-items: center; gap: 10px;
+      margin: 4px 2px 2px;
+      color: var(--wox-footer-text);
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .wox-qr-divider::before, .wox-qr-divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--wox-header-border);
+    }
     .wox-qr-btn {
       display: flex; align-items: center; gap: 12px;
       width: 100%;
@@ -610,6 +622,7 @@
         headerIcon: 'flow',
         welcomeMessage: 'Hi! How can I help?',
         welcomeQuickReplies: [],
+        resetLabel: 'Start a new topic',   // quiet divider label above the menu after a conversation ends ('' to hide)
         footerTagline: '',
         footerIcon: 'flow',
         accentColor: '#2CC7D8',
@@ -791,9 +804,15 @@
       return div;
     },
 
-    _addWelcomeQuickReplies(items) {
+    _addWelcomeQuickReplies(items, opts) {
       const wrap = document.createElement('div');
       wrap.className = 'wox-quick-replies';
+      if (opts && opts.label) {
+        const divider = document.createElement('div');
+        divider.className = 'wox-qr-divider';
+        divider.textContent = opts.label;
+        wrap.appendChild(divider);
+      }
       items.forEach(item => {
         const btn = document.createElement('button');
         btn.className = 'wox-qr-btn';
@@ -925,7 +944,8 @@
       try { sessionStorage.removeItem(this._config.sessionKey); } catch (e) {}
       const quickReplies = this._config.welcomeQuickReplies;
       if (quickReplies && quickReplies.length) {
-        this._addWelcomeQuickReplies(quickReplies);
+        // Quiet framing so the menu reads as "here are your options again", not a bot follow-up.
+        this._addWelcomeQuickReplies(quickReplies, { label: this._config.resetLabel });
       }
     },
     open()  { this._toggle(true);  },
