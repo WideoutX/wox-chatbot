@@ -119,8 +119,17 @@
       ],
       footerTagline: 'Map your Manual Workflow and see the path to an Automated Workflow',
       footerIcon: 'flow',
-      accentColor: '#22d3ee',
-      position: 'bottom-right'
+      accentColor: '#2CC7D8',      // brand cyan, consistent across both states
+      position: 'bottom-right',
+
+      // Launcher pill (spec: "Chat with us →")
+      launcherLabel: 'Chat with us',
+      launcherIcon: 'chat',
+
+      // Scroll-aware theming. Works with zero config (flips to light past the hero).
+      // For pixel-accurate switching, list the light section selectors from x.wideout.com:
+      // lightSections: ['#solution', '#use-cases', '#pricing'],
+      scrollAware: true
     });
   </script>
 </body>

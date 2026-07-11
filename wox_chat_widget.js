@@ -32,7 +32,7 @@
  *       { label: 'Careers',             icon: 'case', message: 'Are you hiring?' }
  *     ],
  *     footerTagline: 'Map your Manual Workflow and see the path to an Automated Workflow',
- *     accentColor: '#22d3ee'
+ *     accentColor: '#2CC7D8'
  *   });
  */
 (function (global) {
@@ -45,7 +45,8 @@
     tag:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.2" fill="currentColor"/></svg>',
     chat:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',
     close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>',
-    send:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>'
+    send:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>',
+    arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>'
   };
 
   const STYLES = `
@@ -53,7 +54,89 @@
       box-sizing: border-box;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
+
+    /* =========================================================
+       THEME TOKENS — DARK (hero) state is the default.
+       .wox-light overrides these when scrolled into light sections.
+       Palette from WOX Website Chatbot Revamp spec.
+       ========================================================= */
     .wox-chat-root {
+      /* Brand accent — cyan, consistent across both states */
+      --wox-accent: #2CC7D8;
+      --wox-link: #7fe4f0;
+
+      /* Panel */
+      --wox-panel-bg:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(44, 199, 216, 0.16) 0%, transparent 60%),
+        radial-gradient(ellipse at top right, rgba(44, 199, 216, 0.12) 0%, transparent 55%),
+        linear-gradient(180deg, #032D3A 0%, #021C26 100%);
+      --wox-panel-border: rgba(44, 199, 216, 0.30);
+      --wox-panel-shadow: 0 0 60px rgba(44, 199, 216, 0.18), 0 24px 64px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.04);
+      --wox-starfield-opacity: 0.6;
+
+      /* Header */
+      --wox-header-bg: linear-gradient(180deg, rgba(44, 199, 216, 0.08) 0%, transparent 100%);
+      --wox-header-border: rgba(44, 199, 216, 0.2);
+      --wox-header-rule: linear-gradient(90deg, transparent, rgba(44, 199, 216, 0.6), transparent);
+      --wox-title: #ffffff;
+      --wox-subtitle: #9db4c0;
+      --wox-close: #9db4c0;
+      --wox-close-hover: #ffffff;
+      --wox-close-hover-bg: rgba(255,255,255,0.06);
+
+      /* Bot / user messages */
+      --wox-bot-bg: linear-gradient(180deg, rgba(6, 55, 70, 0.72) 0%, rgba(2, 28, 38, 0.72) 100%);
+      --wox-bot-border: rgba(148, 163, 184, 0.15);
+      --wox-bot-text: #e7f4f7;
+      --wox-strong: #ffffff;
+      --wox-code-bg: rgba(44, 199, 216, 0.15);
+      --wox-code-text: #7fe4f0;
+      --wox-user-bg: linear-gradient(135deg, rgba(44, 199, 216, 0.20) 0%, rgba(44, 199, 216, 0.10) 100%);
+      --wox-user-border: rgba(44, 199, 216, 0.38);
+      --wox-user-text: #ffffff;
+
+      /* Quick replies (stacked) */
+      --wox-qr-bg: linear-gradient(180deg, rgba(6, 55, 70, 0.6) 0%, rgba(2, 28, 38, 0.6) 100%);
+      --wox-qr-border: rgba(44, 199, 216, 0.22);
+      --wox-qr-text: #e7f4f7;
+      --wox-qr-bg-hover: linear-gradient(180deg, rgba(44, 199, 216, 0.14) 0%, rgba(2, 28, 38, 0.6) 100%);
+      --wox-qr-border-hover: rgba(44, 199, 216, 0.5);
+      --wox-qr-glow-hover: 0 0 16px rgba(44, 199, 216, 0.15);
+
+      /* Chips (inline) */
+      --wox-chip-bg: rgba(44, 199, 216, 0.08);
+      --wox-chip-border: rgba(44, 199, 216, 0.3);
+      --wox-chip-text: #2CC7D8;
+      --wox-chip-bg-hover: rgba(44, 199, 216, 0.16);
+      --wox-chip-border-hover: rgba(44, 199, 216, 0.55);
+      --wox-chip-text-hover: #ffffff;
+
+      /* Input */
+      --wox-inputbar-bg: linear-gradient(180deg, transparent 0%, rgba(2, 28, 38, 0.5) 100%);
+      --wox-inputbar-border: rgba(44, 199, 216, 0.15);
+      --wox-input-bg: rgba(2, 28, 38, 0.5);
+      --wox-input-border: rgba(148, 163, 184, 0.18);
+      --wox-input-text: #e7f4f7;
+      --wox-input-placeholder: #6B8792;
+      --wox-input-bg-focus: rgba(2, 28, 38, 0.75);
+      --wox-input-focus-ring: 0 0 0 3px rgba(44, 199, 216, 0.14);
+
+      /* Footer */
+      --wox-footer-text: #9db4c0;
+      --wox-footer-border: rgba(148, 163, 184, 0.08);
+
+      /* Scrollbar */
+      --wox-scroll-thumb: rgba(44, 199, 216, 0.22);
+      --wox-scroll-thumb-hover: rgba(44, 199, 216, 0.4);
+
+      /* Launcher */
+      --wox-launcher-bg: linear-gradient(180deg, #032D3A 0%, #021C26 100%);
+      --wox-launcher-border: rgba(44, 199, 216, 0.55);
+      --wox-launcher-label: #ffffff;
+      --wox-launcher-icon: #2CC7D8;
+      --wox-launcher-glow: 0 0 32px rgba(44, 199, 216, 0.40), 0 8px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+      --wox-launcher-glow-hover: 0 0 44px rgba(44, 199, 216, 0.6), 0 12px 28px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08);
+
       position: fixed;
       z-index: 2147483000;
       bottom: 24px;
@@ -61,25 +144,105 @@
     .wox-chat-root[data-position="bottom-right"] { right: 24px; }
     .wox-chat-root[data-position="bottom-left"]  { left: 24px;  }
 
-    /* LAUNCHER */
+    /* =========================================================
+       LIGHT (scrolled) state — light aqua panel, dark teal text,
+       softly tinted body (never pure white), reduced glow.
+       ========================================================= */
+    .wox-chat-root.wox-light {
+      --wox-link: #0B7C8A;
+
+      --wox-panel-bg:
+        radial-gradient(ellipse 80% 60% at 50% 25%, rgba(44, 199, 216, 0.10) 0%, transparent 60%),
+        linear-gradient(180deg, #E9FBFD 0%, #CFF5F8 100%);
+      --wox-panel-border: rgba(44, 199, 216, 0.35);
+      --wox-panel-shadow: 0 0 24px rgba(44, 199, 216, 0.10), 0 18px 48px rgba(3, 45, 58, 0.12), inset 0 1px 0 rgba(255,255,255,0.5);
+      --wox-starfield-opacity: 0;
+
+      --wox-header-bg: linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(233,251,253,0.35) 100%);
+      --wox-header-border: rgba(44, 199, 216, 0.25);
+      --wox-header-rule: linear-gradient(90deg, transparent, rgba(44, 199, 216, 0.5), transparent);
+      --wox-title: #073240;
+      --wox-subtitle: #6B8792;
+      --wox-close: #6B8792;
+      --wox-close-hover: #073240;
+      --wox-close-hover-bg: rgba(7, 50, 64, 0.06);
+
+      --wox-bot-bg: #E9FBFD;
+      --wox-bot-border: rgba(44, 199, 216, 0.28);
+      --wox-bot-text: #073240;
+      --wox-strong: #073240;
+      --wox-code-bg: rgba(44, 199, 216, 0.16);
+      --wox-code-text: #0B7C8A;
+      --wox-user-bg: linear-gradient(135deg, rgba(44, 199, 216, 0.24) 0%, rgba(44, 199, 216, 0.12) 100%);
+      --wox-user-border: rgba(44, 199, 216, 0.5);
+      --wox-user-text: #073240;
+
+      --wox-qr-bg: #ffffff;
+      --wox-qr-border: rgba(44, 199, 216, 0.35);
+      --wox-qr-text: #073240;
+      --wox-qr-bg-hover: #ffffff;
+      --wox-qr-border-hover: rgba(44, 199, 216, 0.6);
+      --wox-qr-glow-hover: 0 0 14px rgba(44, 199, 216, 0.18);
+
+      --wox-chip-bg: #ffffff;
+      --wox-chip-border: rgba(44, 199, 216, 0.45);
+      --wox-chip-text: #073240;
+      --wox-chip-bg-hover: #E9FBFD;
+      --wox-chip-border-hover: rgba(44, 199, 216, 0.7);
+      --wox-chip-text-hover: #073240;
+
+      --wox-inputbar-bg: linear-gradient(180deg, transparent 0%, rgba(207, 245, 248, 0.6) 100%);
+      --wox-inputbar-border: rgba(44, 199, 216, 0.25);
+      --wox-input-bg: #ffffff;
+      --wox-input-border: rgba(44, 199, 216, 0.30);
+      --wox-input-text: #073240;
+      --wox-input-placeholder: #6B8792;
+      --wox-input-bg-focus: #ffffff;
+      --wox-input-focus-ring: 0 0 0 3px rgba(44, 199, 216, 0.16);
+
+      --wox-footer-text: #6B8792;
+      --wox-footer-border: rgba(107, 135, 146, 0.18);
+
+      --wox-scroll-thumb: rgba(44, 199, 216, 0.35);
+      --wox-scroll-thumb-hover: rgba(44, 199, 216, 0.55);
+
+      --wox-launcher-bg: linear-gradient(180deg, #E9FBFD 0%, #CFF5F8 100%);
+      --wox-launcher-border: rgba(44, 199, 216, 0.55);
+      --wox-launcher-label: #073240;
+      --wox-launcher-icon: #0B7C8A;
+      --wox-launcher-glow: 0 0 16px rgba(44, 199, 216, 0.20), 0 8px 20px rgba(3, 45, 58, 0.14);
+      --wox-launcher-glow-hover: 0 0 24px rgba(44, 199, 216, 0.32), 0 12px 24px rgba(3, 45, 58, 0.18);
+    }
+
+    /* Cross-fade when switching states */
+    .wox-panel, .wox-launcher, .wox-header, .wox-msg-bot, .wox-typing,
+    .wox-qr-btn, .wox-qr-chip, .wox-input, .wox-input-bar, .wox-footer-tagline {
+      transition: background 320ms ease, color 320ms ease, border-color 320ms ease, box-shadow 320ms ease;
+    }
+
+    /* LAUNCHER — rounded pill on desktop, compact bubble on mobile */
     .wox-launcher {
-      width: 60px; height: 60px; border-radius: 50%;
-      background: #002E44;
-      border: 1px solid rgba(34, 211, 238, 0.5);
+      display: inline-flex; align-items: center; gap: 10px;
+      height: 56px; padding: 0 22px;
+      border-radius: 999px;
+      background: var(--wox-launcher-bg);
+      border: 1px solid var(--wox-launcher-border);
       cursor: pointer;
-      box-shadow:
-        0 0 32px rgba(34, 211, 238, 0.38),
-        0 8px 24px rgba(0,0,0,0.5),
-        inset 0 1px 0 rgba(255,255,255,0.06);
-      display: flex; align-items: center; justify-content: center;
-      transition: transform 200ms ease, box-shadow 200ms ease;
-      color: #1aa4b6;
+      box-shadow: var(--wox-launcher-glow);
+      color: var(--wox-launcher-label);
+      font-size: 15px; font-weight: 600; letter-spacing: -0.01em;
+      transition: transform 200ms ease, box-shadow 200ms ease, background 320ms ease, color 320ms ease, border-color 320ms ease;
     }
     .wox-launcher:hover {
       transform: translateY(-2px);
-      box-shadow: 0 0 44px rgba(34, 211, 238, 0.6), 0 12px 28px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08);
+      box-shadow: var(--wox-launcher-glow-hover);
     }
-    .wox-launcher svg { width: 26px; height: 26px; }
+    .wox-launcher:active { transform: translateY(0); }
+    .wox-launcher-icon { color: var(--wox-launcher-icon); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .wox-launcher-icon svg { width: 22px; height: 22px; }
+    .wox-launcher-label { white-space: nowrap; }
+    .wox-launcher-arrow { color: var(--wox-launcher-icon); display: flex; align-items: center; flex-shrink: 0; }
+    .wox-launcher-arrow svg { width: 16px; height: 16px; }
 
     /* PANEL */
     .wox-panel {
@@ -87,29 +250,22 @@
       bottom: 80px;
       width: 380px; height: 600px;
       max-height: calc(100vh - 120px);
-      background:
-        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(34, 211, 238, 0.18) 0%, transparent 60%),
-        radial-gradient(ellipse at top right, rgba(34, 211, 238, 0.14) 0%, transparent 55%),
-        radial-gradient(ellipse at bottom left, rgba(59, 130, 246, 0.08) 0%, transparent 55%),
-        linear-gradient(180deg, #060912 0%, #0a0f1d 100%);
-      border: 1px solid rgba(34, 211, 238, 0.28);
+      background: var(--wox-panel-bg);
+      border: 1px solid var(--wox-panel-border);
       border-radius: 22px;
-      box-shadow:
-        0 0 60px rgba(34, 211, 238, 0.18),
-        0 24px 64px rgba(0,0,0,0.6),
-        inset 0 1px 0 rgba(255,255,255,0.04);
+      box-shadow: var(--wox-panel-shadow);
       display: flex; flex-direction: column;
       overflow: hidden;
       opacity: 0; transform: translateY(12px) scale(0.97);
       pointer-events: none;
-      transition: opacity 220ms ease, transform 220ms ease;
-      color: #e7eef7;
+      transition: opacity 220ms ease, transform 220ms ease, background 320ms ease, border-color 320ms ease, box-shadow 320ms ease;
+      color: var(--wox-bot-text);
     }
     .wox-chat-root[data-position="bottom-right"] .wox-panel { right: 0; }
     .wox-chat-root[data-position="bottom-left"]  .wox-panel { left: 0; }
     .wox-panel.wox-open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
 
-    /* starfield texture */
+    /* starfield texture (fades out in light mode) */
     .wox-panel::before {
       content: '';
       position: absolute; inset: 0;
@@ -120,7 +276,8 @@
         radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.08), transparent),
         radial-gradient(1px 1px at 90% 50%, rgba(255,255,255,0.10), transparent);
       pointer-events: none;
-      opacity: 0.6;
+      opacity: var(--wox-starfield-opacity);
+      transition: opacity 320ms ease;
     }
 
     /* HEADER */
@@ -129,29 +286,29 @@
       padding: 18px 18px 16px;
       display: flex; align-items: flex-start; justify-content: space-between;
       flex-shrink: 0;
-      border-bottom: 1px solid rgba(34, 211, 238, 0.2);
-      background: linear-gradient(180deg, rgba(34, 211, 238, 0.07) 0%, transparent 100%);
+      border-bottom: 1px solid var(--wox-header-border);
+      background: var(--wox-header-bg);
     }
     .wox-header::after {
       content: '';
       position: absolute; left: 0; right: 0; bottom: -1px;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.6), transparent);
+      background: var(--wox-header-rule);
     }
     .wox-header-left { display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
-    .wox-header-icon { flex-shrink: 0; color: var(--wox-accent, #22d3ee); margin-top: 2px; }
+    .wox-header-icon { flex-shrink: 0; color: var(--wox-accent); margin-top: 2px; }
     .wox-header-icon svg { width: 22px; height: 22px; }
     .wox-header-text { line-height: 1.25; min-width: 0; }
-    .wox-title { font-size: 17px; font-weight: 700; color: #fff; letter-spacing: -0.01em; }
-    .wox-subtitle { font-size: 12.5px; color: #94a3b8; margin-top: 3px; }
+    .wox-title { font-size: 17px; font-weight: 700; color: var(--wox-title); letter-spacing: -0.01em; }
+    .wox-subtitle { font-size: 12.5px; color: var(--wox-subtitle); margin-top: 3px; }
     .wox-close {
-      background: transparent; border: none; color: #94a3b8;
+      background: transparent; border: none; color: var(--wox-close);
       cursor: pointer; padding: 4px; border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
       transition: color 120ms ease, background 120ms ease;
       flex-shrink: 0;
     }
-    .wox-close:hover { color: #fff; background: rgba(255,255,255,0.06); }
+    .wox-close:hover { color: var(--wox-close-hover); background: var(--wox-close-hover-bg); }
     .wox-close svg { width: 18px; height: 18px; }
 
     /* MESSAGES */
@@ -164,8 +321,8 @@
     }
     .wox-messages::-webkit-scrollbar { width: 6px; }
     .wox-messages::-webkit-scrollbar-track { background: transparent; }
-    .wox-messages::-webkit-scrollbar-thumb { background: rgba(34, 211, 238, 0.2); border-radius: 3px; }
-    .wox-messages::-webkit-scrollbar-thumb:hover { background: rgba(34, 211, 238, 0.35); }
+    .wox-messages::-webkit-scrollbar-thumb { background: var(--wox-scroll-thumb); border-radius: 3px; }
+    .wox-messages::-webkit-scrollbar-thumb:hover { background: var(--wox-scroll-thumb-hover); }
 
     .wox-msg {
       max-width: 85%;
@@ -181,40 +338,40 @@
     }
     .wox-msg-bot {
       align-self: flex-start;
-      background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.7) 100%);
-      border: 1px solid rgba(148, 163, 184, 0.15);
-      color: #e7eef7;
+      background: var(--wox-bot-bg);
+      border: 1px solid var(--wox-bot-border);
+      color: var(--wox-bot-text);
       border-bottom-left-radius: 4px;
       backdrop-filter: blur(8px);
     }
     .wox-msg-user {
       align-self: flex-end;
-      background: linear-gradient(135deg, rgba(34, 211, 238, 0.18) 0%, rgba(59, 130, 246, 0.18) 100%);
-      border: 1px solid rgba(34, 211, 238, 0.35);
-      color: #fff;
+      background: var(--wox-user-bg);
+      border: 1px solid var(--wox-user-border);
+      color: var(--wox-user-text);
       border-bottom-right-radius: 4px;
     }
     .wox-msg p { margin: 0 0 8px 0; }
     .wox-msg p:last-child { margin-bottom: 0; }
     .wox-msg ul { margin: 6px 0; padding-left: 20px; }
     .wox-msg li { margin: 3px 0; }
-    .wox-msg strong { font-weight: 600; color: #fff; }
+    .wox-msg strong { font-weight: 700; color: var(--wox-strong); }
     .wox-msg em { font-style: italic; }
     .wox-msg code {
-      background: rgba(34, 211, 238, 0.15);
-      color: #67e8f9;
+      background: var(--wox-code-bg);
+      color: var(--wox-code-text);
       padding: 1px 6px; border-radius: 4px;
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: 12.5px;
     }
-    .wox-msg a { color: var(--wox-accent, #22d3ee); text-decoration: underline; word-break: break-word; }
-    .wox-msg a:hover { color: #67e8f9; }
+    .wox-msg a { color: var(--wox-link); text-decoration: underline; word-break: break-word; }
+    .wox-msg a:hover { opacity: 0.8; }
     .wox-msg img {
       max-width: 100%;
       height: auto;
       border-radius: 10px;
       margin: 6px 0;
-      border: 1px solid rgba(148, 163, 184, 0.15);
+      border: 1px solid var(--wox-bot-border);
       display: block;
     }
 
@@ -227,10 +384,10 @@
       display: flex; align-items: center; gap: 12px;
       width: 100%;
       padding: 13px 16px;
-      background: linear-gradient(180deg, rgba(30, 41, 59, 0.55) 0%, rgba(15, 23, 42, 0.55) 100%);
-      border: 1px solid rgba(34, 211, 238, 0.22);
+      background: var(--wox-qr-bg);
+      border: 1px solid var(--wox-qr-border);
       border-radius: 14px;
-      color: #e7eef7;
+      color: var(--wox-qr-text);
       font-size: 14px; font-weight: 500;
       font-family: inherit;
       cursor: pointer;
@@ -239,13 +396,13 @@
       backdrop-filter: blur(8px);
     }
     .wox-qr-btn:hover {
-      background: linear-gradient(180deg, rgba(34, 211, 238, 0.12) 0%, rgba(15, 23, 42, 0.55) 100%);
-      border-color: rgba(34, 211, 238, 0.5);
+      background: var(--wox-qr-bg-hover);
+      border-color: var(--wox-qr-border-hover);
       transform: translateX(2px);
-      box-shadow: 0 0 16px rgba(34, 211, 238, 0.15);
+      box-shadow: var(--wox-qr-glow-hover);
     }
     .wox-qr-btn:active { transform: translateX(0) scale(0.99); }
-    .wox-qr-icon { color: var(--wox-accent, #22d3ee); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .wox-qr-icon { color: var(--wox-accent); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
     .wox-qr-icon svg { width: 18px; height: 18px; }
 
     /* INLINE QUICK REPLIES from genie (chip style) */
@@ -256,27 +413,27 @@
     }
     .wox-qr-chip {
       padding: 7px 13px;
-      background: rgba(34, 211, 238, 0.08);
-      border: 1px solid rgba(34, 211, 238, 0.3);
+      background: var(--wox-chip-bg);
+      border: 1px solid var(--wox-chip-border);
       border-radius: 999px;
-      color: var(--wox-accent, #22d3ee);
+      color: var(--wox-chip-text);
       font-size: 13px; font-weight: 500;
       font-family: inherit;
       cursor: pointer;
       transition: all 150ms ease;
     }
     .wox-qr-chip:hover {
-      background: rgba(34, 211, 238, 0.16);
-      border-color: rgba(34, 211, 238, 0.55);
-      color: #fff;
+      background: var(--wox-chip-bg-hover);
+      border-color: var(--wox-chip-border-hover);
+      color: var(--wox-chip-text-hover);
     }
     .wox-qr-chip:active { transform: scale(0.97); }
 
     /* TYPING */
     .wox-typing {
       align-self: flex-start;
-      background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.7) 100%);
-      border: 1px solid rgba(148, 163, 184, 0.15);
+      background: var(--wox-bot-bg);
+      border: 1px solid var(--wox-bot-border);
       padding: 14px 16px;
       border-radius: 14px;
       border-bottom-left-radius: 4px;
@@ -285,7 +442,7 @@
     }
     .wox-typing span {
       width: 6px; height: 6px; border-radius: 50%;
-      background: var(--wox-accent, #22d3ee);
+      background: var(--wox-accent);
       animation: wox-bounce 1.3s infinite ease-in-out;
       opacity: 0.6;
     }
@@ -300,28 +457,28 @@
     .wox-footer-tagline {
       padding: 12px 18px;
       display: flex; align-items: center; gap: 10px;
-      border-top: 1px solid rgba(148, 163, 184, 0.08);
-      color: #94a3b8;
+      border-top: 1px solid var(--wox-footer-border);
+      color: var(--wox-footer-text);
       font-size: 11.5px; line-height: 1.4;
       flex-shrink: 0;
       position: relative; z-index: 1;
     }
-    .wox-footer-icon { color: var(--wox-accent, #22d3ee); flex-shrink: 0; opacity: 0.85; }
+    .wox-footer-icon { color: var(--wox-accent); flex-shrink: 0; opacity: 0.85; }
     .wox-footer-icon svg { width: 18px; height: 18px; }
 
     /* INPUT */
     .wox-input-bar {
       padding: 12px;
-      border-top: 1px solid rgba(34, 211, 238, 0.15);
+      border-top: 1px solid var(--wox-inputbar-border);
       display: flex; gap: 8px; align-items: flex-end;
       flex-shrink: 0;
-      background: linear-gradient(180deg, transparent 0%, rgba(6, 9, 18, 0.5) 100%);
+      background: var(--wox-inputbar-bg);
       position: relative; z-index: 1;
     }
     .wox-input {
       flex: 1;
-      border: 1px solid rgba(148, 163, 184, 0.18);
-      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--wox-input-border);
+      background: var(--wox-input-bg);
       border-radius: 12px;
       padding: 10px 14px;
       font-size: 14px;
@@ -332,34 +489,34 @@
       line-height: 1.4;
       outline: none;
       transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
-      color: #e7eef7;
+      color: var(--wox-input-text);
     }
-    .wox-input::placeholder { color: #64748b; }
+    .wox-input::placeholder { color: var(--wox-input-placeholder); }
     .wox-input:focus {
-      border-color: rgba(34, 211, 238, 0.55);
-      background: rgba(15, 23, 42, 0.75);
-      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.12);
+      border-color: var(--wox-accent);
+      background: var(--wox-input-bg-focus);
+      box-shadow: var(--wox-input-focus-ring);
     }
     .wox-send {
-      background: linear-gradient(135deg, #67e8f9 0%, var(--wox-accent, #22d3ee) 100%);
+      background: linear-gradient(135deg, #7fe4f0 0%, var(--wox-accent) 100%);
       border: none;
       width: 40px; height: 40px;
       border-radius: 12px;
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      color: #062028;
+      color: #032D3A;
       flex-shrink: 0;
       transition: opacity 150ms ease, transform 150ms ease, box-shadow 150ms ease;
-      box-shadow: 0 0 22px rgba(34, 211, 238, 0.5), inset 0 1px 0 rgba(255,255,255,0.25);
+      box-shadow: 0 0 22px rgba(44, 199, 216, 0.5), inset 0 1px 0 rgba(255,255,255,0.25);
     }
-    .wox-send:hover { transform: translateY(-1px); box-shadow: 0 0 32px rgba(34, 211, 238, 0.7), inset 0 1px 0 rgba(255,255,255,0.3); }
+    .wox-send:hover { transform: translateY(-1px); box-shadow: 0 0 32px rgba(44, 199, 216, 0.7), inset 0 1px 0 rgba(255,255,255,0.3); }
     .wox-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
     .wox-send svg { width: 18px; height: 18px; }
 
     .wox-error {
       align-self: stretch;
       background: rgba(239, 68, 68, 0.1);
-      color: #fca5a5;
+      color: #d64545;
       border: 1px solid rgba(239, 68, 68, 0.3);
       padding: 10px 14px;
       border-radius: 12px;
@@ -370,6 +527,9 @@
       .wox-chat-root { bottom: 16px; }
       .wox-chat-root[data-position="bottom-right"] { right: 16px; }
       .wox-chat-root[data-position="bottom-left"]  { left: 16px;  }
+      /* compact bubble launcher on mobile */
+      .wox-launcher { width: 56px; padding: 0; justify-content: center; }
+      .wox-launcher-label, .wox-launcher-arrow { display: none; }
       .wox-panel {
         width: calc(100vw - 32px);
         height: calc(100vh - 100px);
@@ -436,6 +596,7 @@
     _sendBtn: null,
     _conversationId: '',
     _welcomeShown: false,
+    _light: false,
 
     init(config) {
       if (this._initialized) { console.warn('[WoxChat] already initialized'); return; }
@@ -451,9 +612,16 @@
         welcomeQuickReplies: [],
         footerTagline: '',
         footerIcon: 'flow',
-        accentColor: '#22d3ee',
+        accentColor: '#2CC7D8',
         position: 'bottom-right',
-        sessionKey: 'wox_chat_conversation_id'
+        sessionKey: 'wox_chat_conversation_id',
+        // Launcher
+        launcherLabel: 'Chat with us',
+        launcherIcon: 'chat',
+        // Scroll-aware theming
+        scrollAware: true,          // set false to lock to dark mode
+        lightSections: [],          // optional CSS selectors of light page sections (most accurate)
+        lightModeThreshold: null    // optional scroll-Y (px) to flip to light; defaults to ~85% of viewport height
       }, config);
 
       try { this._conversationId = sessionStorage.getItem(this._config.sessionKey) || ''; } catch (e) {}
@@ -461,7 +629,54 @@
       this._injectStyles();
       this._mount();
       this._bind();
+      this._initScrollTheme();
       this._initialized = true;
+    },
+
+    // Scroll-aware theming: flip between dark (hero) and light (scrolled) states.
+    _initScrollTheme() {
+      const cfg = this._config;
+      if (cfg.scrollAware === false) return;
+
+      // Preferred: watch specific light sections via IntersectionObserver (most accurate).
+      const selectors = Array.isArray(cfg.lightSections) ? cfg.lightSections : [];
+      if (selectors.length && 'IntersectionObserver' in window) {
+        const els = [];
+        selectors.forEach(sel => {
+          try { document.querySelectorAll(sel).forEach(el => els.push(el)); } catch (e) {}
+        });
+        if (els.length) {
+          const lit = new Set();
+          const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => { e.isIntersecting ? lit.add(e.target) : lit.delete(e.target); });
+            this._setLight(lit.size > 0);
+          }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+          els.forEach(el => io.observe(el));
+          return;
+        }
+      }
+
+      // Fallback: simple scroll-Y threshold (works with zero config — flips once past the hero).
+      const getThreshold = () => (typeof cfg.lightModeThreshold === 'number'
+        ? cfg.lightModeThreshold
+        : Math.round(window.innerHeight * 0.85));
+      let ticking = false;
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          this._setLight(window.scrollY > getThreshold());
+          ticking = false;
+        });
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    },
+
+    _setLight(on) {
+      if (this._light === on || !this._root) return;
+      this._light = on;
+      this._root.classList.toggle('wox-light', on);
     },
 
     _injectStyles() {
@@ -514,7 +729,11 @@
             <button class="wox-send" aria-label="Send message">${ICONS.send}</button>
           </div>
         </div>
-        <button class="wox-launcher" aria-label="Open chat">${ICONS.chat}</button>
+        <button class="wox-launcher" aria-label="Open chat">
+          <span class="wox-launcher-icon">${iconSVG(this._config.launcherIcon)}</span>
+          <span class="wox-launcher-label">${this._escapeHTML(this._config.launcherLabel)}</span>
+          <span class="wox-launcher-arrow">${ICONS.arrow}</span>
+        </button>
       `;
 
       root.querySelector('.wox-title').textContent = this._config.title;
